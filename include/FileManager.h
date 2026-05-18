@@ -11,14 +11,11 @@ class FileManager {
 private:
     std::string filenameBooks = "../data/books.txt";
     std::string filenameMembers = "../data/members.txt";
-    std::string filenameTransactions = "../data/transactions.txt";
 
 public:
     void loadBooks(Catalogue *catalogue) const;
     void saveBooks(Catalogue *catalogue) const;
     void loadRegistry(MemberRegistry *registry, Catalogue *catalogue) const;
     void saveRegistry(MemberRegistry *registry, Catalogue *catalogue) const;
-    void loadTransactions(Transaction *transaction) const;
-    void saveTransactions(Transaction *transaction) const;
 };
 #endif

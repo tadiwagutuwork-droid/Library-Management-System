@@ -24,7 +24,6 @@ public:
     void complete(std::time_t returnDate, double fee, MemberRegistry *registry, Catalogue *catalogue);
     bool isOverdue() const;
     void display() const;
-    std::string saveData() const;
 
     // setter
     void setBorrowDate(std::time_t time);
