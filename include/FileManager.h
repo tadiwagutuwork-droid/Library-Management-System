@@ -2,7 +2,10 @@
 #define FILEMANAGER_H
 #include "Catalogue.h"
 #include "MemberRegistry.h"
+#include "Transaction.h"
 #include <string>
+#include <sstream>
+#include <ctime>
 
 class FileManager {
 private:
@@ -15,5 +18,7 @@ public:
     void saveBooks(Catalogue *catalogue) const;
     void loadRegistry(MemberRegistry *registry, Catalogue *catalogue) const;
     void saveRegistry(MemberRegistry *registry, Catalogue *catalogue) const;
+    void loadTransactions(Transaction *transaction) const;
+    void saveTransactions(Transaction *transaction) const;
 };
 #endif

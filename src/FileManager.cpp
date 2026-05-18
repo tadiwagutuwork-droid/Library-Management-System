@@ -1,7 +1,6 @@
 #include "../include/FileManager.h"
-#include <sstream>
-#include <fstream>
 #include <iostream>
+#include <fstream>
 
 void FileManager::loadBooks(Catalogue *catalogue) const {
     std::ifstream inFile(filenameBooks);
@@ -129,3 +128,35 @@ void FileManager::saveRegistry(MemberRegistry *registry, Catalogue *catalogue) c
         outFile << registry->getMemberIndex(i)->saveMember(catalogue) << std::endl;
     }
 }
+
+void FileManager::saveTransactions(Transaction *transaction) const{
+    std::ofstream outFile(filenameTransactions);
+    if (!outFile)
+    {
+        std::cerr << "Unable to open file for writing!" << std::endl;
+        return;
+    }
+    outFile << transaction->saveData() << std::endl;
+}
+
+void FileManager::loadTransactions(Transaction *transaction) const{
+    
+}
+
+std::time_t stringToTime(const std::string &time_str)
+    {
+        std::tm t = {};
+        std::istringstream ss(time_str);
+        ss >> std::get_time(&t, "%Y-%m-%d %H:%M:%S");
+
+        if (ss.fail())
+        {
+            std::cerr << "Error: Failed to parse time string.\n";
+            return -1;
+        }
+
+        // Let the system handle Daylight Saving Time evaluation
+        t.tm_isdst = -1;
+
+        return std::mktime(&t);
+    }
