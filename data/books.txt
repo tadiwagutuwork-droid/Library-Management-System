@@ -1,0 +1,6 @@
+P|Harry Potter|J.K Rowling|HP123|45
+P|The Hobbit|J.R.R Tolkien|HB456|20
+E|Clean Code|Robert Martin|CC789|https://download.com/cleancode|15.7
+E|C++ Primer|Lippman|CPP111|https://download.com/cppprimer|25.3
+P|Atomic Habits|James Clear|AH222|30
+E|Design Patterns|Gang of Four|DP333|https://download.com/designpatterns|18.4

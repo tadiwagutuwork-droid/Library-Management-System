@@ -13,7 +13,7 @@ private:
 public:
     void loadBooks(Catalogue *catalogue) const;
     void saveBooks(Catalogue *catalogue) const;
-    void loadRegistry(MemberRegistry *registry) const;
-    void saveRegistry(MemberRegistry *registry) const;
+    void loadRegistry(MemberRegistry *registry, Catalogue *catalogue) const;
+    void saveRegistry(MemberRegistry *registry, Catalogue *catalogue) const;
 };
 #endif

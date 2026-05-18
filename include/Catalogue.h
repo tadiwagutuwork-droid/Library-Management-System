@@ -21,5 +21,6 @@ public:
     int getCount() const;
     int getCapacity() const;
     LibraryItem *getAt(int index) const;
+    int getIndex(const std::string &isbn) const;
 };
 #endif

@@ -1,7 +1,5 @@
 #include <iostream>
 #include "../include/Member.h"
-#include "../include/PhysicalBook.h"
-#include "../include/EBook.h"
 #include <cmath>
 
 Member::Member(std::string id, std::string name, std::string email) {
@@ -122,6 +120,34 @@ LibraryItem *Member::getBorrowedIndex(const int index) const {
     return (index < borrowedCount) ? borrowed[index] : nullptr;
 }
 
-std::string Member::saveMember() const {
-    return std::format("{}|{}|{}|", memberID, name, email);
+int Member::getCatalogueIndex(Catalogue *catalogue, std::string isbn) const {
+    return catalogue->getIndex(isbn);
+}
+
+void Member::setOutstandingFees(double fees) {
+    if (fees < 0)
+    {
+        this->outstandingFees = 0;
+    }
+    this->outstandingFees = fees;
+}
+
+std::string Member::saveMember(Catalogue *catalogue) const {
+    std::string borrowedBooks = "";
+    int index;
+    if (borrowedCount != 0) {
+        for (int i=0; i < borrowedCount; i++) {
+            index = getCatalogueIndex(catalogue, this->borrowed[i]->getISBN());
+            borrowedBooks += "|" + std::to_string(index);
+            if (index == -1) { 
+                break;
+            }
+        }
+    }
+    int cond = this->getActive();
+    return std::format("{}|{}|{}|{}|{}|{}", memberID, name, email, this->getBorrowedCount(), this->getoutstandingFees(), cond) + borrowedBooks;
+}
+
+void Member::setBorrowedCount(int count) {
+    this->borrowedCount = (count >= 0) ? count: 0;
 }

@@ -1,6 +1,8 @@
 #ifndef MEMBER_H
 #define MEMBER_H
-#include "LibraryItem.h"
+#include "../include/PhysicalBook.h"
+#include "../include/EBook.h"
+#include "../include/Catalogue.h"
 #include <string>
 
 class Member {
@@ -30,6 +32,11 @@ public:
     LibraryItem *getBorrowedIndex(const int index) const;
     void setActive(bool cond);
     std::string getMemberID() const;
-    std::string saveMember() const;
+    std::string saveMember(Catalogue *catalogue) const;
+    int getCatalogueIndex(Catalogue *catalogue, std::string isbn) const;
+
+    // setters
+    void setOutstandingFees(double fees);
+    void setBorrowedCount(int count);
 };
 #endif

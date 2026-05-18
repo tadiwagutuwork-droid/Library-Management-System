@@ -17,8 +17,7 @@ Catalogue::~Catalogue() {
 
 void Catalogue::add(LibraryItem *item) {
     items[count++] = item;
-
-    if (count == Catalogue::getCapacity()) {
+    if (count == this->capacity) {
         this->capacity *= 2;
         LibraryItem **temp = new LibraryItem*[capacity];
 
@@ -109,4 +108,14 @@ int Catalogue::getCapacity() const {
 
 LibraryItem *Catalogue::getAt(int index) const {
     return (index < count) ? items[index] : nullptr;
+}
+
+int Catalogue::getIndex(const std::string &isbn) const
+{
+    for (int i=0; i < count; i++) {
+        if (items[i]->getISBN() == isbn) {
+            return i;
+        }
+    }
+    return -1;
 }

@@ -7,13 +7,11 @@ void FileManager::loadBooks(Catalogue *catalogue) const {
     std::ifstream inFile(filenameBooks);
     std::string file;
 
-    if (!inFile)
-    {
+    if (!inFile) {
         return;
     }
 
-    while (getline(inFile, file))
-    {
+    while (getline(inFile, file)) {
         std::istringstream ss(file);
         std::string temp;
         char bookType;
@@ -21,10 +19,9 @@ void FileManager::loadBooks(Catalogue *catalogue) const {
         PhysicalBook *pbook;
         EBook *ebook;
 
-        // 1. Get ID
         if (std::getline(ss, temp, '|'))
         {
-            char bookType = temp[0];
+            bookType = temp[0];
         }
 
         std::getline(ss, title, '|');
@@ -65,11 +62,11 @@ void FileManager::saveBooks(Catalogue *catalogue) const{
         return;
     }
     for (int i = 0; i < catalogue->getCount(); i++) {
-        outFile << catalogue[i].getAt(i)->saveBook() << std::endl;
+        outFile << catalogue->getAt(i)->saveBook() << std::endl;
     }
 }
 
-void FileManager::loadRegistry(MemberRegistry *registry) const {
+void FileManager::loadRegistry(MemberRegistry *registry, Catalogue *catalogue) const {
     std::ifstream inFile(filenameMembers);
     std::string file;
 
@@ -90,18 +87,45 @@ void FileManager::loadRegistry(MemberRegistry *registry) const {
 
         Member *member = new Member(mID, name, email);
         registry->addToRegistry(member);
+        int borrowed = 0, x;
+
+        if (std::getline(ss, temp, '|')) {
+            borrowed = std::stoi(temp);
+        }
+
+        if (std::getline(ss, temp, '|')) {
+            member->setOutstandingFees(std::stod(temp));
+        }
+
+        if (std::getline(ss, temp, '|')) {
+            member->setActive(std::stoi(temp));
+        }
+
+        while (borrowed > 0) {
+            x = -1;
+            if (std::getline(ss, temp, '|')) {
+                x = std::stoi(temp);
+            }
+            if (x == -1) {
+                break;
+            }
+            LibraryItem *item = catalogue->getAt(x);
+            if (item != nullptr) {
+                member->addBorrowed(item);
+            }
+        }
         member = nullptr;
     }
     inFile.close();
 }
 
-void FileManager::saveRegistry(MemberRegistry *registry) const {
-    std::ofstream outFile(filenameBooks);
+void FileManager::saveRegistry(MemberRegistry *registry, Catalogue *catalogue) const {
+    std::ofstream outFile(filenameMembers);
     if (!outFile) {
         std::cerr << "Unable to open file for writing!" << std::endl;
         return;
     }
     for (int i = 0; i < registry->getMemberCount(); i++) {
-        outFile << registry->getMemberIndex(i) << std::endl;
+        outFile << registry->getMemberIndex(i)->saveMember(catalogue) << std::endl;
     }
 }
